@@ -16,8 +16,8 @@ build-staging:       # This job runs in the build stage, which runs first.
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   stage: build
   script:
-    - npm install
-    - npm run build:staging
+#    - npm install
+#    - npm run build:staging
     - echo "$CI_COMMIT_BRANCH"
 #    - firebase hosting:channel:deploy ${CI_COMMIT_BRANCH} --token=${FIREBASE_TOKEN}
 
