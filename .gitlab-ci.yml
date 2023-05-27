@@ -18,7 +18,7 @@ build-staging:       # This job runs in the build stage, which runs first.
   stage: build
   artifacts:
     paths:
-      - "./dist/JDMBlog"
+      - "/dist/JDMBlog"
   script:
     - npm install
     - npm run build:staging
@@ -29,7 +29,7 @@ build-production:
   stage: build
   artifacts:
     paths:
-      - "./dist/JDMBlog"
+      - "/dist/JDMBlog"
   script:
     - npm install
     - npm run build:prod
@@ -49,9 +49,9 @@ deploy-production-job:      # This job runs in the deploy stage.
   environment: production
   artifacts:
     paths:
-      - "./dist/JDMBlog"
+      - "/dist/JDMBlog"
   script:
-    - mv dist/JDMBlog public/
+    - mv /dist/JDMBlog public/
     - firebase deploy --token=$FIREBASE_TOKEN
 
 deploy-staging:
@@ -61,7 +61,7 @@ deploy-staging:
   environment: staging
   artifacts:
     paths:
-      - "./dist/JDMBlog"
+      - "/dist/JDMBlog"
   script:
-    - mv dist/JDMBlog public/
+    - mv /dist/JDMBlog public/
     - firebase hosting:channel:deploy $CI_COMMIT_BRANCH
