@@ -53,3 +53,15 @@ deploy-production-job:      # This job runs in the deploy stage.
   script:
     - mv dist/JDMBlog public/
     - firebase deploy --token=$FIREBASE_TOKEN
+
+deploy-staging:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_SOURCE == 'merge_request_event'
+  environment: staging
+  artifacts:
+    paths:
+      - "dist/JDMBlog"
+  script:
+    - mv dist/JDMBlog public/
+    - firebase hosting:channel:deploy $CI_COMMIT_BRANCH
