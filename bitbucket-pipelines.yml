@@ -13,7 +13,7 @@ pipelines:
                       - npm run test:ci
                   artifacts:
                       paths:
-                          - dist/ez-saver/*
+                          - dist/JDMBlog/*
             - step:
                   name: Deploy
                   oidc: true
@@ -36,7 +36,7 @@ pipelines:
                       - npm run build:prod
                   artifacts:
                       paths:
-                          - dist/ez-saver/*
+                          - dist/JDMBlog/*
             - step:
                   name: Release Production
                   oidc: true
