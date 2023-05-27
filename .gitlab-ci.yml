@@ -18,7 +18,7 @@ build-staging:       # This job runs in the build stage, which runs first.
   script:
     - npm install
     - npm run build:staging
-    - firebase hosting:channel:deploy $CI_COMMIT_BRANCH
+    - firebase hosting:channel:deploy ${CI_COMMIT_BRANCH} --token=${FIREBASE_TOKEN}
 
 build-production:
   rules:
