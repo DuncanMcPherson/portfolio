@@ -1,0 +1,13 @@
+{
+  "type": "external_account",
+  "audience": "//iam.googleapis.com/projects/641380028909/locations/global/workloadIdentityPools/bitbucket-oidc/providers/bitbucket-cloud",
+  "subject_token_type": "urn:ietf:params:oauth:token-type:jwt",
+  "token_url": "https://sts.googleapis.com/v1/token",
+  "service_account_impersonation_url": "https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/bitbucket-deployment@jduncanm-blog.iam.gserviceaccount.com:generateAccessToken",
+  "credential_source": {
+    "file": "bitbucket-step-oidc-token",
+    "format": {
+      "type": "text"
+    }
+  }
+}
