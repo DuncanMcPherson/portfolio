@@ -1,0 +1,48 @@
+image: dunkinthedonut/node-chrome
+
+pipelines:
+    pull-requests:
+        '**':
+            - step:
+                  name: Build Staging
+                  caches:
+                      - node
+                  script:
+                      - npm install
+                      - npm run build:staging
+                      - npm run test:ci
+                  artifacts:
+                      paths:
+                          - dist/ez-saver/*
+            - step:
+                  name: Deploy
+                  oidc: true
+                  deployment: staging
+                  artifacts:
+                      download: true
+                  script:
+                      - echo $BITBUCKET_STEP_OIDC_TOKEN > bitbucket-step-oidc-token
+                      - CI_COMMIT_REF_SLUG="$(echo $BITBUCKET_BRANCH | iconv -t ascii//TRANSLIT | sed -r s/[~\^]+//g | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\-+$//g | tr A-Z a-z)"
+                      - echo $CI_COMMIT_REF_SLUG
+                      - GOOGLE_APPLICATION_CREDENTIALS=./clientLibraryConfig-bitbucket-cloud.json firebase hosting:channel:deploy $CI_COMMIT_REF_SLUG
+    branches:
+        master:
+            - step:
+                  name: Build Prod
+                  caches:
+                      - node
+                  script:
+                      - npm install
+                      - npm run build:prod
+                  artifacts:
+                      paths:
+                          - dist/ez-saver/*
+            - step:
+                  name: Release Production
+                  oidc: true
+                  artifacts:
+                      download: true
+                  deployment: production
+                  script:
+                      - echo $BITBUCKET_STEP_OIDC_TOKEN > bitbucket-step-oidc-token
+                      - GOOGLE_APPLICATION_CREDENTIALS=./clientLibraryConfig-bitbucket-cloud.json firebase deploy
