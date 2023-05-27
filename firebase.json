@@ -3,7 +3,7 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "dist/JDMBlog",
+    "public": "dist/jdmblog",
     "ignore": [
       "firebase.json",
       "**/.*",
