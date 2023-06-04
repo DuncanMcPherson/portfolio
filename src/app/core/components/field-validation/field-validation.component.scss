@@ -1,0 +1,208 @@
+$color-red-lightest: #ffecec;
+$color-red-medium: #de150c;
+$color-red: #e75750;
+$color-red-transparent: rgba(231, 71, 64, 0.36);
+
+.form-element-wrapper {
+	position: relative;
+	margin-bottom: 16px;
+
+	&.is-toggle-password {
+		&.is-valid,
+		&.is-invalid {
+			::ng-deep .is-input {
+				&:before {
+					right: 45px;
+				}
+			}
+		}
+	}
+
+	&.is-valid {
+		::ng-deep .is-input {
+			&:before {
+				content: "\2713";
+				color: #079987;
+				font-size: 13px;
+				top: 18px;
+				right: 15px;
+				z-index: 1;
+				position: absolute;
+				display: inline-block;
+			}
+		}
+	}
+
+	&.is-invalid {
+		::ng-deep input,
+		::ng-deep select,
+		::ng-deep textarea {
+			background-color: $color-red-lightest;
+			border-color: $color-red-medium;
+		}
+
+		::ng-deep div.select-power {
+			background-color: $color-red-lightest;
+			border-color: $color-red-medium;
+		}
+
+		::ng-deep .is-input {
+			&:before {
+				content: "!";
+				color: $color-red;
+				font-size: 20px;
+				top: 13px;
+				right: 15px;
+				z-index: 1;
+				position: absolute;
+				display: inline-block;
+			}
+		}
+
+		::ng-deep .animated-label {
+			color: $color-red;
+		}
+	}
+}
+
+::ng-deep {
+	.hide-validation-icon {
+		.form-element-wrapper {
+			&.is-valid {
+				.is-input {
+					&:before {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+}
+
+.form-error {
+	margin: -10px 0 16px;
+
+	span {
+		color: #ffffff;
+		background-color: $color-red;
+		display: block;
+		padding: 10px;
+		margin-top: 0;
+		position: relative;
+
+		&:before {
+			content: "";
+			width: 0;
+			height: 0;
+			border-left: 20px solid transparent;
+			border-right: 20px solid transparent;
+			border-bottom: 20px solid $color-red;
+			position: absolute;
+			top: -10px;
+			left: 14px;
+		}
+	}
+}
+
+:host-context(.radio-validation) {
+	.form-element-wrapper {
+		margin-bottom: 0;
+	}
+
+	.form-error {
+		margin-top: 0;
+
+		span:before {
+			display: none;
+		}
+	}
+}
+
+:host-context(.form-redesign) {
+	.form-element-wrapper {
+		margin-bottom: 0;
+
+		&.is-valid {
+			::ng-deep .is-input:before {
+				bottom: 45px;
+				top: initial;
+			}
+		}
+
+		::ng-deep .is-invalid.is-input:before,
+		::ng-deep .is-invalid.is-input:after {
+			content: none;
+		}
+
+		::ng-deep .is-invalid.is-select:before {
+			color: $color-red;
+		}
+
+		&.is-invalid {
+			::ng-deep {
+				input,
+				select,
+				textarea {
+					background-color: transparent;
+					border-color: $color-red;
+					color: $color-red;
+
+					&:hover {
+						border-color: $color-red;
+					}
+
+					&::placeholder {
+						color: $color-red-transparent;
+					}
+				}
+
+				::ng-deep div.select-power {
+					color: $color-red-medium;
+				}
+
+				.animated-label,
+				.is-select:before {
+					color: $color-red;
+				}
+			}
+
+			&:before {
+				color: $color-red;
+			}
+
+			::ng-deep .is-input:before {
+				content: none;
+			}
+		}
+	}
+
+	::ng-deep .form-error {
+		margin: 0;
+		position: relative;
+		top: -28px;
+		text-align: left;
+
+		span {
+			color: $color-red;
+			background-color: transparent;
+			display: block;
+			padding: 0;
+			margin-top: 0;
+			line-height: 20px;
+			font-size: 13px;
+
+			&:before {
+				content: "";
+				border: none;
+			}
+		}
+	}
+
+	.only-option:first-child {
+		left: 0;
+	}
+
+	.only-option:last-child {
+		right: 0;
+	}
+}
