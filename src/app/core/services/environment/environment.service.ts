@@ -8,4 +8,8 @@ export class EnvironmentService {
 	public get firebaseConfig() {
 		return environment.firebaseInit;
 	}
+
+	public get recaptchaKey() {
+		return environment.recaptchaKey;
+	}
 }

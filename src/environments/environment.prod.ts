@@ -8,5 +8,6 @@ export const environment = {
 		storageBucket: "jduncanm-blog.appspot.com",
 		messagingSenderId: "641380028909",
 		appId: "1:641380028909:web:350355e70868fe322e57e4"
-	}
+	},
+	recaptchaKey: '6Leg82YmAAAAAHnnc8yHbToPfkECPp2zwWWtag25'
 };
