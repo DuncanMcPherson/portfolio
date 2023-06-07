@@ -449,5 +449,3 @@ export class AutoMocker {
 		return value && !!value.calls;
 	}
 }
-
-// TODO: Add auto mocker plus
