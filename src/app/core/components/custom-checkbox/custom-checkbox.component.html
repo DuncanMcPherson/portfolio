@@ -1,0 +1,15 @@
+<div class="checkbox-wrapper">
+	<input
+		type="checkbox"
+		[attr.id]="id"
+		(change)="toggleCheckbox()"
+		(blur)="markTouched()"
+		[checked]="isChecked"
+		[disabled]="isDisabled"
+	>
+
+	<label [attr.for]="id">
+		<span class="d-none">{{ accessibilityLabel }}</span>
+		<span><ng-content></ng-content></span>
+	</label>
+</div>
