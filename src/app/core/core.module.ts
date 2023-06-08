@@ -4,6 +4,7 @@ import { HeaderComponent } from './components/header/header.component';
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import { FieldValidationComponent } from './components/field-validation/field-validation.component';
 import { CustomCheckboxComponent } from './components/custom-checkbox/custom-checkbox.component';
+import { AnimatedLabelDirective } from './directives/animated-label.directive';
 
 
 
@@ -11,7 +12,8 @@ import { CustomCheckboxComponent } from './components/custom-checkbox/custom-che
     declarations: [
         HeaderComponent,
         FieldValidationComponent,
-        CustomCheckboxComponent
+        CustomCheckboxComponent,
+        AnimatedLabelDirective
     ],
     exports: [
         HeaderComponent

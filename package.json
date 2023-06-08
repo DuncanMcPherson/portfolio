@@ -22,6 +22,7 @@
 		"@angular/platform-browser-dynamic": "^16.0.3",
 		"@angular/router": "^16.0.3",
 		"bootstrap": "^5.2.3",
+		"compass-mixins-fixed": "^1.0.1",
 		"firebase": "^9.22.1",
 		"lodash-es": "^4.17.21",
 		"rxjs": "~7.5.0",

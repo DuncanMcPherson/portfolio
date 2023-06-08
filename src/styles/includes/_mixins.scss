@@ -1,0 +1,217 @@
+@import "node_modules/compass-mixins-fixed/lib/compass";
+@import "vars";
+
+@mixin clearfix {
+	&:before,
+	&:after {
+		display: table;
+		content: " ";
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin column-fill($fill) {
+	-moz-column-fill: $fill;
+	column-fill: $fill;
+}
+
+@mixin font-face-new($name, $file_root, $font_display) {
+	@font-face {
+		font-family: "#{$name}";
+		src: url("../webfonts/#{$file_root}.eot");
+		src: url("../webfonts/#{$file_root}.eot?##{$file_root}") format("embedded-opentype"),
+		url("../webfonts/#{$file_root}.woff2") format("woff2"),
+		url("../webfonts/#{$file_root}.woff") format("woff"),
+		url("../webfonts/#{$file_root}.ttf") format("truetype");
+		font-display: #{$font_display};
+	}
+}
+
+@mixin clearfix {
+	&:before,
+	&:after {
+		display: table;
+		content: " ";
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+/// Mixins
+@mixin block {
+	display: block;
+}
+
+@mixin il-block {
+	display: inline-block;
+}
+
+@mixin click-through {
+	user-select: none;
+}
+
+@mixin visible {
+	visibility: visible;
+}
+
+@mixin hidden {
+	visibility: hidden;
+}
+
+@mixin overflow-hidden {
+	overflow: hidden;
+}
+
+@mixin btn-block {
+	@include block;
+	width: 100%;
+}
+
+@mixin no-gutter-right {
+	padding-right: 0 !important;
+}
+
+@mixin no-gutter-left {
+	padding-left: 0 !important;
+}
+
+@mixin no-padding {
+	padding: 0 !important;
+}
+
+@mixin no-padding-top {
+	padding-top: 0 !important;
+}
+
+@mixin no-padding-bottom {
+	padding-bottom: 0 !important;
+}
+
+@mixin no-margin {
+	margin: 0 !important;
+}
+
+@mixin no-margin-top {
+	margin-top: 0 !important;
+}
+
+@mixin no-margin-right {
+	margin-right: 0 !important;
+}
+
+@mixin no-margin-bottom {
+	margin-bottom: 0 !important;
+}
+
+@mixin no-margin-left {
+	margin-left: 0 !important;
+}
+
+@mixin text-right {
+	text-align: right !important;
+}
+
+@mixin text-center {
+	text-align: center !important;
+}
+
+@mixin text-left {
+	text-align: left !important;
+}
+
+@mixin text-nowrap {
+	white-space: nowrap;
+}
+
+@mixin text-nowrap-ellipsis {
+	@include text-nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+@mixin text-overline {
+	text-decoration: overline;
+}
+
+@mixin text-linethrough {
+	text-decoration: line-through;
+}
+
+@mixin text-underline {
+	text-decoration: underline;
+}
+
+@mixin float-right {
+	float: right !important;
+}
+
+@mixin float-left {
+	float: left !important;
+}
+
+@mixin no-border {
+	border: none !important;
+}
+
+@mixin no-border-top {
+	border-top: none !important;
+}
+
+@mixin no-border-right {
+	border-right: none !important;
+}
+
+@mixin no-border-bottom {
+	border-bottom: none !important;
+}
+
+@mixin no-border-left {
+	border-left: none !important;
+}
+
+@mixin border-before-after {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	background-color: $color-border;
+	width: 1px;
+}
+
+@mixin border-before {
+	&:before {
+		@include border-before-after;
+		right: auto;
+		left: -1px;
+	}
+}
+
+@mixin border-after {
+	&:after {
+		@include border-before-after;
+		right: 0;
+	}
+}
+
+@keyframes scaleup {
+	from {
+		@include transform(scale(0.7));
+	}
+	to {
+		@include transform(scale(1));
+	}
+}
+
+@mixin scaleup-animation {
+	&.scale-up {
+		display: block;
+		-webkit-animation: scaleup 0.5s;
+		-moz-animation: scaleup 0.5s;
+		animation: scaleup 0.5s;
+	}
+}

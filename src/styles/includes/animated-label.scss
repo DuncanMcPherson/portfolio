@@ -1,0 +1,42 @@
+@import "vars";
+@import "mixins";
+
+.form-control-wrapper {
+	.animated-form-control {
+		padding-top: 10px;
+		&:focus + .animated-label {
+			color: $color-red-medium;
+		}
+	}
+
+	textarea {
+		&.animated-form-control {
+			padding: 12px 25px 12px 12px;
+		}
+
+		+ .animated-label {
+			top: 25px;
+
+			&.animated {
+				display: none;
+			}
+		}
+	}
+}
+
+.animated-label {
+	cursor: text;
+	white-space: nowrap;
+	color: $color-border;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	@include transform(translate(15px, -50%));
+	@include transition(all 200ms);
+	@include user-select(none);
+	pointer-events: none;
+	&.animated {
+		font-size: 11px;
+		@include transform(translate(5px, -23px));
+	}
+}
