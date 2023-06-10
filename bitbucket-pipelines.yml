@@ -1,12 +1,20 @@
 image: dunkinthedonut/node-chrome
 
+definitions:
+    caches:
+        npm:
+            key:
+                files:
+                    - package-lock.json
+            path: node_modules
+
 pipelines:
     pull-requests:
         '**':
             - step:
                   name: Build Staging
                   caches:
-                      - node
+                      - npm
                   script:
                       - npm install
                       - npm run build:staging
@@ -30,7 +38,7 @@ pipelines:
             - step:
                   name: Build Prod
                   caches:
-                      - node
+                      - npm
                   script:
                       - npm install
                       - npm run build:prod

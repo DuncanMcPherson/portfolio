@@ -25,6 +25,7 @@
 		"compass-mixins-fixed": "^1.0.1",
 		"firebase": "^9.22.1",
 		"lodash-es": "^4.17.21",
+		"ngx-bootstrap": "^6.2.0",
 		"rxjs": "~7.5.0",
 		"tslib": "^2.3.0",
 		"zone.js": "~0.13.0"
