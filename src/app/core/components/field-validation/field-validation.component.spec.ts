@@ -7,6 +7,8 @@ import { ErrorMessageConfigService as ErrorMessageConfig } from "../../services/
 import { FormHelperService } from "../../services/form-helper.service";
 import { FieldValidationComponent } from "./field-validation.component";
 import {ComponentFixture, TestBed} from "@angular/core/testing";
+import * as Chance from 'chance';
+const chance = new Chance();
 
 describe('FieldValidationComponent', () => {
 	let fixture: ComponentFixture<FieldValidationComponent>;
