@@ -73,7 +73,7 @@ export class CoreModalService {
 	 * @param initialState The desired data for the modal
 	 * @returns ModalOptions
 	 */
-	private getParsedOptions<T>(options: IModalOptions, initialState: T): ModalOptions {
+	private getParsedOptions<T>(options: IModalOptions, initialState: T): ModalOptions<T> {
 		return {
 			initialState: initialState,
 			ignoreBackdropClick: !!options.ignoreBackdropClick ? options.ignoreBackdropClick : false
