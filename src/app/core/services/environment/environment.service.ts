@@ -12,4 +12,12 @@ export class EnvironmentService {
 	public get recaptchaKey() {
 		return environment.recaptchaKey;
 	}
+
+	public get linkPreviewKey(): string {
+		return environment.linkPreviewKey;
+	}
+
+	public get linkPreviewApi(): string {
+		return 'https://api.linkpreview.net';
+	}
 }
