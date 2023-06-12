@@ -13,7 +13,8 @@ export const environment = {
 		messagingSenderId: "641380028909",
 		appId: "1:641380028909:web:350355e70868fe322e57e4"
 	},
-	recaptchaKey: '6Leg82YmAAAAAHnnc8yHbToPfkECPp2zwWWtag25'
+	recaptchaKey: '6Leg82YmAAAAAHnnc8yHbToPfkECPp2zwWWtag25',
+	linkPreviewKey: '69fbc8c78c0063f2d0d995d9ef95532b'
 };
 
 /*
