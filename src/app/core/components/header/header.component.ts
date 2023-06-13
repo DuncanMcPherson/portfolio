@@ -1,6 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BehaviorSubject, filter, map, Observable, Subject, takeUntil, tap} from "rxjs";
+import {BehaviorSubject, combineLatestWith, filter, map, Observable, Subject, takeUntil, tap} from "rxjs";
 import {NavigationEnd, Router} from "@angular/router";
+import {CampaignService} from "../../../campaign/services/campaign.service";
+import {CampaignId} from "../../../campaign/models/campaign-id";
+import {CampaignPathId} from "../../../campaign/models/campaign-path-id";
 
 @Component({
   selector: 'app-header',
@@ -9,17 +12,24 @@ import {NavigationEnd, Router} from "@angular/router";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 	public isMenuOpen$$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-	public vm$?: Observable<{ isMenuOpen: boolean }>
+	public vm$?: Observable<{ isMenuOpen: boolean, showFeature: boolean }>
 	private destroy$$: Subject<void> = new Subject();
 
-	constructor(private readonly router: Router) {
+	constructor(
+		private readonly router: Router,
+		private readonly campaignService: CampaignService
+	) {
 	}
 
 	public ngOnInit(): void {
 		this.vm$ = this.isMenuOpen$$.pipe(
-			map((isOpen) => {
+			combineLatestWith(this.campaignService.getCampaign$(CampaignId.FeatureBuilds).pipe(
+				map((campaignPathId) => campaignPathId === CampaignPathId.A)
+			)),
+			map(([isOpen, showFeature]: [boolean, boolean]) => {
 				return {
-					isMenuOpen: isOpen
+					isMenuOpen: isOpen,
+					showFeature: showFeature
 				}
 			})
 		);
