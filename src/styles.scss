@@ -1,7 +1,22 @@
 @import "styles/includes/animated-label";
+@import "styles/includes/vars";
 /* You can add global styles to this file, and also import other style files */
 @media (prefers-color-scheme: dark) {
 	body {
 		background-color: #121212;
+		color: #e0e0e0;
+	}
+}
+
+.btn-primary {
+	background-color: $color-red-medium;
+	border: none;
+	&:disabled {
+		border: none;
+		background-color: #DE150CA6;
+	}
+	&:hover {
+		border: none;
+		background-color: #DE150CDD;
 	}
 }
