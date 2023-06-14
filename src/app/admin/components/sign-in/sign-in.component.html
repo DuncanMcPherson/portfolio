@@ -1,0 +1,20 @@
+<div class="container">
+	<div class="row">
+		<h1 class="text-center">Sign in</h1>
+		<form [formGroup]="form">
+			<div class="email col-6 offset-3">
+				<app-field-validation [control]="emailControl" fieldName="signInEmail">
+					<input type="email" formControlName="email" class="form-control" appAnimatedLabel="Email">
+				</app-field-validation>
+			</div>
+			<div class="password col-6 offset-3 mt-3">
+				<app-field-validation [control]="passwordControl" fieldName="signInPassword">
+					<input type="password" formControlName="password" class="form-control" appAnimatedLabel="Password">
+				</app-field-validation>
+			</div>
+			<div class="col-6 offset-3">
+				<button class="submit-button btn btn-primary" [disabled]="isButtonDisabled()" (click)="submit()">Sign in</button>
+			</div>
+		</form>
+	</div>
+</div>

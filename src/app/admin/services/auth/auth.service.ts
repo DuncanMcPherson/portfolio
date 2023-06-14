@@ -2,10 +2,9 @@ import {Injectable} from '@angular/core';
 import {Auth, getAuth, signInWithEmailAndPassword, User, onAuthStateChanged} from 'firebase/auth'
 import {AppService} from "../../../core/services/app/app.service";
 import {BehaviorSubject, from, map, Observable} from "rxjs";
-import {AdminModule} from "../../admin.module";
 
 @Injectable({
-	providedIn: AdminModule
+	providedIn: 'root'
 })
 export class AuthService {
 	private user$$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
@@ -30,7 +29,7 @@ export class AuthService {
 		this.auth = getAuth(appService.app);
 
 		onAuthStateChanged(this.auth, (user) => {
-			if (this.allowedAdmins.includes(user.email)) {
+			if (user && this.allowedAdmins.includes(user.email)) {
 				this.user$$.next(user);
 			}
 		})

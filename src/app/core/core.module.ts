@@ -16,9 +16,11 @@ import {ModalModule} from "ngx-bootstrap/modal";
         CustomCheckboxComponent,
         AnimatedLabelDirective
     ],
-    exports: [
-        HeaderComponent
-    ],
+	exports: [
+		HeaderComponent,
+		FieldValidationComponent,
+		AnimatedLabelDirective
+	],
 	imports: [
 		CommonModule,
 		RouterLink,
