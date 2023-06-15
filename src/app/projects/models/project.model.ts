@@ -2,8 +2,10 @@ import {IPreview} from "./preview.model";
 
 export interface IProject {
 	readonly title: string;
-	readonly url?: string;
+	readonly url: string;
 	readonly preview?: IPreview;
+	readonly isInternal: boolean;
+	readonly roleDescription: string;
 }
 
 function addPreview(project: IProject, preview: IPreview): IProject {
@@ -27,8 +29,16 @@ function updateUrl(project: IProject, newUrl: string): IProject {
 	}
 }
 
+function updateRoleDescription(project: IProject, newDescription: string): IProject {
+	return {
+		...project,
+		roleDescription: newDescription
+	}
+}
+
 export const projectUtils = {
 	addPreview,
 	updateTitle,
-	updateUrl
+	updateUrl,
+	updateRoleDescription
 }

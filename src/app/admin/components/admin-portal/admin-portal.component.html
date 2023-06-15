@@ -1,1 +1,3 @@
-<p>admin-portal works!</p>
+<div *ngIf="vm$ | async as vm">
+	<pre>{{vm | json}}</pre>
+</div>
