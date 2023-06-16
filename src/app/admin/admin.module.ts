@@ -6,6 +6,7 @@ import { AdminPortalComponent } from './components/admin-portal/admin-portal.com
 import {AuthGuard} from "./guards/auth.guard";
 import {ReactiveFormsModule} from "@angular/forms";
 import {CoreModule} from "../core/core.module";
+import { ProjectsManagementComponent } from './components/projects-management/projects-management.component';
 
 const routes: Routes = [
 	{
@@ -17,13 +18,19 @@ const routes: Routes = [
 	{
 		path: 'auth',
 		component: SignInComponent,
+	},
+	{
+		path: 'projects',
+		component: ProjectsManagementComponent,
+		canActivate: [AuthGuard]
 	}
 ]
 
 @NgModule({
 	declarations: [
     SignInComponent,
-    AdminPortalComponent
+    AdminPortalComponent,
+    ProjectsManagementComponent
   ],
 	imports: [
 		CommonModule,

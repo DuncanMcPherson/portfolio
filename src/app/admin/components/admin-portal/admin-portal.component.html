@@ -1,3 +1,19 @@
 <div *ngIf="vm$ | async as vm">
-	<pre>{{vm | json}}</pre>
+	<div class="row py-3">
+		<h1 class="text-center">Admin Portal</h1>
+	</div>
+	<div class="row">
+		<div class="col-12 col-md-5 col-lg-2 offset-md-1 offset-lg-3">
+			<div class="card px-3 py-2" (click)="navigateToPage('projects')">
+				<div class="h4">Projects</div>
+				<p>Total count: {{vm.projects.length}}</p>
+			</div>
+		</div>
+		<div class="col-12 col-md-5 col-lg-2 offset-md-1 offset-lg-1">
+			<div class="card px-3 py-2" (click)="navigateToPage('posts')">
+				<div class="h4">Posts</div>
+				<p>Total count: 0</p>
+			</div>
+		</div>
+	</div>
 </div>
