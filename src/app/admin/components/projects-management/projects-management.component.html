@@ -5,6 +5,7 @@
 	<div class="row">
 		<div class="col-3" *ngFor="let project of vm.projects">
 <!--			TODO: Add Designs for projects-->
+			{{project.title}}
 		</div>
 		<div class="col-3">
 			<button class="btn btn-primary" (click)="openCreateProjectModal()">Create Project</button>

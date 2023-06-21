@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractModal} from "../../../core/models/abstract-modal";
 import {IProject} from "../../../projects/models/project.model";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {LinkPreviewService} from "../../../link-preview/services/link-preview.service";
 import {IPreview} from "../../../projects/models/preview.model";
-import {combineLatest, filter, map, take, tap} from "rxjs";
+import {combineLatest, filter, map, Subject, take, takeUntil, tap} from "rxjs";
 import {ModalResultAction} from "../../../core/models/modal-result";
 
 interface IProjectForm {
@@ -19,10 +19,12 @@ interface IProjectForm {
   templateUrl: './create-project-modal.component.html',
   styleUrls: ['./create-project-modal.component.scss']
 })
-export class CreateProjectModalComponent extends AbstractModal<void, IProject> implements OnInit {
+export class CreateProjectModalComponent extends AbstractModal<void, IProject> implements OnInit, OnDestroy {
 	public form: FormGroup;
 
 	public preview: IPreview;
+
+	private destroy$$: Subject<void> = new Subject<void>();
 
 	public get titleControl(): FormControl {
 		return this.form.get('projectTitle') as FormControl;
@@ -59,6 +61,7 @@ export class CreateProjectModalComponent extends AbstractModal<void, IProject> i
 			this.urlControl.valueChanges,
 			this.isInternalControl.valueChanges
 		]).pipe(
+			takeUntil(this.destroy$$),
 			filter(([status, value]) => {
 				return status === 'VALID' && value.length > 1
 			}),
@@ -77,7 +80,11 @@ export class CreateProjectModalComponent extends AbstractModal<void, IProject> i
 					})
 				}
 			})
-		)
+		).subscribe();
+	}
+
+	public ngOnDestroy(): void {
+		this.destroy$$.next();
 	}
 
 	public saveProject(): void {

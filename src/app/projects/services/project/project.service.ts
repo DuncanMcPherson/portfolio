@@ -22,7 +22,6 @@ export class ProjectService {
 	public loadProjects(): void {
 		this.databaseService.get<IProject[]>('projects')
 			.pipe(
-				take(1),
 				map((results) => {
 					if (!results || !isArray(results)) {
 						return [] as IProject[];
@@ -85,6 +84,11 @@ export class ProjectService {
 					...projects,
 					project
 				]
+			}),
+			map((projects) => {
+				return projects.map((project) => {
+					return projectUtils.purgePreview(project)
+				})
 			}),
 			tap((projects) => {
 				this.databaseService.setValue<IProject[]>('projects', projects);

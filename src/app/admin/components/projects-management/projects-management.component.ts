@@ -3,11 +3,13 @@ import {map, Observable} from "rxjs";
 import {IProject} from "../../../projects/models/project.model";
 import {ProjectService} from "../../../projects/services/project/project.service";
 import {CoreModalService} from "../../../core/services/modal/core-modal.service";
+import {CreateProjectModalComponent} from "../create-project-modal/create-project-modal.component";
+import {IModalResult, ModalResultAction} from "../../../core/models/modal-result";
 
 @Component({
-  selector: 'app-projects-management',
-  templateUrl: './projects-management.component.html',
-  styleUrls: ['./projects-management.component.scss']
+	selector: 'app-projects-management',
+	templateUrl: './projects-management.component.html',
+	styleUrls: ['./projects-management.component.scss']
 })
 export class ProjectsManagementComponent implements OnInit {
 	public vm$: Observable<{ projects: IProject[] }>;
@@ -15,9 +17,11 @@ export class ProjectsManagementComponent implements OnInit {
 	constructor(
 		private readonly projectService: ProjectService,
 		private readonly modalService: CoreModalService,
-	) {}
+	) {
+	}
 
 	public ngOnInit(): void {
+		this.projectService.loadProjects();
 		this.vm$ = this.projectService.projects$.pipe(
 			map((projects) => {
 				return {
@@ -28,6 +32,18 @@ export class ProjectsManagementComponent implements OnInit {
 	}
 
 	public openCreateProjectModal(): void {
-
+		this.modalService
+			.openModal(CreateProjectModalComponent, void 0)
+			.subscribe({
+				next: (projectResult: IModalResult<IProject>) => {
+					if (projectResult.result === ModalResultAction.accept) {
+						const project = projectResult.data;
+						this.projectService.createProject(project.title, project.url, project.isInternal, project.roleDescription)
+					}
+				},
+				error: (err) => {
+					console.log(err);
+				}
+			})
 	}
 }

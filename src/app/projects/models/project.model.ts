@@ -36,9 +36,19 @@ function updateRoleDescription(project: IProject, newDescription: string): IProj
 	}
 }
 
+function purgePreview(project: IProject): IProject {
+	return {
+		title: project.title,
+		url: project.url,
+		roleDescription: project.roleDescription,
+		isInternal: project.isInternal
+	};
+}
+
 export const projectUtils = {
 	addPreview,
 	updateTitle,
 	updateUrl,
-	updateRoleDescription
+	updateRoleDescription,
+	purgePreview
 }
