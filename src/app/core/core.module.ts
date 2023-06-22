@@ -6,6 +6,7 @@ import { FieldValidationComponent } from './components/field-validation/field-va
 import { CustomCheckboxComponent } from './components/custom-checkbox/custom-checkbox.component';
 import { AnimatedLabelDirective } from './directives/animated-label.directive';
 import {ModalModule} from "ngx-bootstrap/modal";
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 
 
@@ -14,13 +15,15 @@ import {ModalModule} from "ngx-bootstrap/modal";
         HeaderComponent,
         FieldValidationComponent,
         CustomCheckboxComponent,
-        AnimatedLabelDirective
+        AnimatedLabelDirective,
+        TruncatePipe
     ],
     exports: [
         HeaderComponent,
         FieldValidationComponent,
         AnimatedLabelDirective,
-        CustomCheckboxComponent
+        CustomCheckboxComponent,
+		TruncatePipe
     ],
 	imports: [
 		CommonModule,

@@ -5,6 +5,7 @@ import {ProjectService} from "../../../projects/services/project/project.service
 import {CoreModalService} from "../../../core/services/modal/core-modal.service";
 import {CreateProjectModalComponent} from "../create-project-modal/create-project-modal.component";
 import {IModalResult, ModalResultAction} from "../../../core/models/modal-result";
+import {EditProjectModalComponent} from "../edit-project-modal/edit-project-modal.component";
 
 @Component({
 	selector: 'app-projects-management',
@@ -43,6 +44,19 @@ export class ProjectsManagementComponent implements OnInit {
 				},
 				error: (err) => {
 					console.log(err);
+				}
+			})
+	}
+
+	public openEditProjectModal(project: IProject): void {
+		this.modalService
+			.openModal<{
+				project: IProject
+			}, IProject, typeof EditProjectModalComponent>(EditProjectModalComponent, {project})
+			.subscribe((result) => {
+				if (result.result === ModalResultAction.accept) {
+					const project = result.data
+					this.projectService.updateProject(project)
 				}
 			})
 	}

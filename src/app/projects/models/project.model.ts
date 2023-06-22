@@ -1,6 +1,7 @@
 import {IPreview} from "./preview.model";
 
 export interface IProject {
+	readonly id: number;
 	readonly title: string;
 	readonly url: string;
 	readonly preview?: IPreview;
@@ -41,8 +42,21 @@ function purgePreview(project: IProject): IProject {
 		title: project.title,
 		url: project.url,
 		roleDescription: project.roleDescription,
-		isInternal: project.isInternal
+		isInternal: project.isInternal,
+		id: project.id
 	};
+}
+
+function addId(project: IProject, offset: number, currentNumberOfProjects: number): IProject {
+	const id = offset + currentNumberOfProjects;
+	if (project.id) {
+		return project;
+	}
+
+	return {
+		...project,
+		id: id
+	}
 }
 
 export const projectUtils = {
@@ -50,5 +64,6 @@ export const projectUtils = {
 	updateTitle,
 	updateUrl,
 	updateRoleDescription,
-	purgePreview
+	purgePreview,
+	addId
 }

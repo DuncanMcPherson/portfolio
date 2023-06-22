@@ -8,6 +8,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {CoreModule} from "../core/core.module";
 import { ProjectsManagementComponent } from './components/projects-management/projects-management.component';
 import { CreateProjectModalComponent } from './components/create-project-modal/create-project-modal.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { EditProjectModalComponent } from './components/edit-project-modal/edit-project-modal.component';
 
 const routes: Routes = [
 	{
@@ -32,7 +34,9 @@ const routes: Routes = [
     SignInComponent,
     AdminPortalComponent,
     ProjectsManagementComponent,
-    CreateProjectModalComponent
+    CreateProjectModalComponent,
+    ProjectCardComponent,
+    EditProjectModalComponent
   ],
 	imports: [
 		CommonModule,

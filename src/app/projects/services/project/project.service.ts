@@ -10,6 +10,7 @@ import {IPreview} from "../../models/preview.model";
 	providedIn: 'root'
 })
 export class ProjectService {
+	private static ID_OFFSET = 100;
 	private readonly projects$$: BehaviorSubject<IProject[]> = new BehaviorSubject<IProject[]>([]);
 	public readonly projects$: Observable<IProject[]> = this.projects$$.asObservable();
 
@@ -65,12 +66,12 @@ export class ProjectService {
 	}
 
 	public createProject(title: string, url: string, isInternal: boolean, roleDescription: string): void {
-		const project: IProject = {
+		let project: IProject = {
 			title: title,
 			url: url,
 			isInternal: isInternal,
 			roleDescription: roleDescription
-		};
+		} as IProject;
 
 		this.projects$.pipe(
 			take(1),
@@ -80,20 +81,74 @@ export class ProjectService {
 					return projects;
 				}
 
+				project = projectUtils.addId(project, ProjectService.ID_OFFSET, projects.length)
+
 				return [
 					...projects,
 					project
-				]
+				];
 			}),
 			map((projects) => {
 				return projects.map((project) => {
 					return projectUtils.purgePreview(project)
-				})
+				});
 			}),
 			tap((projects) => {
 				this.databaseService.setValue<IProject[]>('projects', projects);
 				this.projects$$.next(projects);
 			})
 		).subscribe();
+	}
+
+	public updateProject(project: IProject): void {
+		if (!project || !project.id) {
+			throw new Error('Cannot edit a project with no id.')
+		}
+		const updatedKeys: string[] & (keyof IProject)[] = [];
+		let oldProject = this.projects$$.value.find(x => x.id === project.id);
+		if (!oldProject) {
+			throw new Error("Cannot edit a project that does not exist.");
+		}
+
+		Object.keys(project).forEach((key) => {
+			if (key !== 'id') {
+				if (project[key] !== oldProject[key]) {
+					updatedKeys.push(key)
+				}
+			}
+		});
+
+		if (updatedKeys.length === 0) {
+			return;
+		}
+
+		updatedKeys.forEach((key: keyof IProject) => {
+			const updateMethod = this.getUpdateMethod(key);
+			if (updateMethod) {
+				oldProject = updateMethod(oldProject, project[key]);
+			}
+		});
+
+		const updatedProjects = this.projects$$.value.filter(x => x.id !== project.id);
+		updatedProjects.push(oldProject);
+
+		this.databaseService.setValue('projects', updatedProjects.map((p) => {
+			return projectUtils.purgePreview(p);
+		}))
+	}
+
+	private getUpdateMethod(key: keyof IProject): (...args: any) => IProject {
+		switch (key) {
+			case "roleDescription":
+				return projectUtils.updateRoleDescription;
+			case "title":
+				return projectUtils.updateTitle;
+			case "url":
+				return projectUtils.updateUrl;
+			default:
+				return (project, _) => {
+					return project
+				};
+		}
 	}
 }

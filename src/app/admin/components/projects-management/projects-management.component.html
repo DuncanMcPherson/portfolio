@@ -3,11 +3,10 @@
 		<h1 class="text-center">Projects Management</h1>
 	</div>
 	<div class="row">
-		<div class="col-3" *ngFor="let project of vm.projects">
-<!--			TODO: Add Designs for projects-->
-			{{project.title}}
+		<div class="col-12 col-md-6 col-lg-3 mb-3" *ngFor="let project of vm.projects">
+			<app-project-card [project]="project" style="height: 100%;" class="d-flex" (click)="openEditProjectModal(project)"></app-project-card>
 		</div>
-		<div class="col-3">
+		<div class="col-12 col-md-6 col-lg-3">
 			<button class="btn btn-primary" (click)="openCreateProjectModal()">Create Project</button>
 		</div>
 	</div>

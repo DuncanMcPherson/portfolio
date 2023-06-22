@@ -98,7 +98,7 @@ export class CreateProjectModalComponent extends AbstractModal<void, IProject> i
 			url: formValue.projectUrl,
 			roleDescription: formValue.roleDescription,
 			isInternal: formValue.isInternal
-		};
+		} as IProject;
 
 		this.close(ModalResultAction.accept, project);
 	}
