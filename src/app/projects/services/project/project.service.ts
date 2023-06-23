@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {DatabaseService} from "../../../core/services/database/database.service";
 import {BehaviorSubject, catchError, forkJoin, map, Observable, of, switchMap, take, tap} from "rxjs";
 import {IProject, projectUtils} from "../../models/project.model";
-import {isArray} from "lodash-es";
+import isArray from "lodash-es/isArray";
 import {LinkPreviewService} from "../../../link-preview/services/link-preview.service";
 import {IPreview} from "../../models/preview.model";
 
@@ -12,7 +12,12 @@ import {IPreview} from "../../models/preview.model";
 export class ProjectService {
 	private static ID_OFFSET = 100;
 	private readonly projects$$: BehaviorSubject<IProject[]> = new BehaviorSubject<IProject[]>([]);
-	public readonly projects$: Observable<IProject[]> = this.projects$$.asObservable();
+	public readonly projects$: Observable<IProject[]> = this.projects$$
+		.pipe(
+			map((projects) => {
+				return this.sortArray<IProject>(projects, 'id')
+			})
+		);
 
 	constructor(
 		private readonly databaseService: DatabaseService,
@@ -76,7 +81,7 @@ export class ProjectService {
 		this.projects$.pipe(
 			take(1),
 			map((projects) => {
-				const existing = projects.find(x => x.url ===project.url);
+				const existing = projects.find(x => x.url === project.url);
 				if (!!existing) {
 					return projects;
 				}
@@ -150,5 +155,53 @@ export class ProjectService {
 					return project
 				};
 		}
+	}
+
+	private sortArray<T>(collection: T[], key: keyof T): T[] {
+		let result: T[] = [];
+		for (let i = 0; i < collection.length;) {
+			let compRes = 0;
+			let lowest: T;
+			while (compRes >= 0) {
+				let a = collection[i++],
+					b = collection[i];
+				if (i < collection.length) {
+					if (lowest) {
+						if (a[key] < lowest[key]) {
+							lowest = a;
+							compRes = 1;
+						} else if (b[key] < lowest[key]) {
+							lowest = b;
+							compRes = 0
+						} else if (a[key] === lowest[key] || b[key] === lowest[key]) {
+							compRes = 0;
+						} else {
+							compRes = -1;
+						}
+					} else {
+						lowest = a;
+						if (a[key] < b[key]) {
+							lowest = a;
+							compRes = 1
+						} else if (b[key] < a[key]) {
+							lowest = b;
+							compRes = 0;
+						} else {
+							lowest = a;
+							compRes = -1
+						}
+					}
+				} else {
+					if (!lowest) {
+						lowest = a;
+					}
+					compRes = -1;
+				}
+			}
+			result.push(lowest);
+			collection = collection.filter(x => x[key] !== lowest[key]);
+			i = 0;
+		}
+		return result;
 	}
 }

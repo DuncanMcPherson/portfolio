@@ -37,7 +37,6 @@ export class EditProjectModalComponent extends AbstractModal<IEditProjectModalDa
 	}
 
 	public ngOnInit(): void {
-		console.log(this.project)
 		this.form = new FormGroup<IEditProjectForm>({
 			title: new FormControl<string>(this.project.title, [Validators.required, Validators.minLength(5)]),
 			url: new FormControl<string>(this.project.url, [Validators.required, this.urlValidator]),
