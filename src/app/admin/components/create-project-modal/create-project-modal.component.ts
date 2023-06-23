@@ -4,7 +4,7 @@ import {IProject} from "../../../projects/models/project.model";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {LinkPreviewService} from "../../../link-preview/services/link-preview.service";
 import {IPreview} from "../../../projects/models/preview.model";
-import {combineLatest, filter, map, Subject, take, takeUntil, tap} from "rxjs";
+import {combineLatest, filter, map, startWith, Subject, take, takeUntil, tap} from "rxjs";
 import {ModalResultAction} from "../../../core/models/modal-result";
 
 interface IProjectForm {
@@ -60,6 +60,9 @@ export class CreateProjectModalComponent extends AbstractModal<void, IProject> i
 			this.urlControl.statusChanges,
 			this.urlControl.valueChanges,
 			this.isInternalControl.valueChanges
+				.pipe(
+					startWith(true)
+				)
 		]).pipe(
 			takeUntil(this.destroy$$),
 			filter(([status, value]) => {
