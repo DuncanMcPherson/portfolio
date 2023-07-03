@@ -37,6 +37,11 @@ export class ProjectBuilder {
 		return this;
 	}
 
+	public withId(id: number): ProjectBuilder {
+		this._id = id;
+		return this;
+	}
+
 	public build(): IProject {
 		return {
 			title: this._title,

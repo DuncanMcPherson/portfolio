@@ -6,6 +6,9 @@ import {LinkPreviewService} from "../../../link-preview/services/link-preview.se
 import {autoMockerInstance} from "../../../../test-utils/auto-mocker-plus";
 import {ProjectBuilder} from "../../../../test-utils/builders/project.builder";
 import {take} from "rxjs";
+import * as Chance from 'chance';
+
+const chance = new Chance();
 
 describe('ProjectService', () => {
 	let service: ProjectService;
@@ -83,6 +86,75 @@ describe('ProjectService', () => {
 				expect(projects.length).toEqual(0);
 				done();
 			});
+		});
+	});
+
+	describe('createProject', () => {
+		it('should update project list', (done) => {
+			let title = chance.string(), url = chance.string(), isInternal = chance.bool(),
+				description = chance.string();
+
+			service.createProject(title, url, isInternal, description);
+
+			expect(databaseServiceMock.setValue).toHaveBeenCalled();
+			service.projects$.subscribe((projects) => {
+				expect(projects.length).toEqual(1);
+				done();
+			});
+		});
+
+		it('should not update project list when when url already exists in list', (done) => {
+			let title = chance.string(), url = chance.string(), isInternal = chance.bool(),
+				description = chance.string();
+			let project = new ProjectBuilder().withUrl(url).build();
+			service['projects$$'].next([project]);
+
+			service.createProject(title, url, isInternal, description);
+			expect(databaseServiceMock.setValue).toHaveBeenCalled();
+			service.projects$.subscribe((projects) => {
+				expect(projects.length).toEqual(1);
+				done();
+			});
+		});
+	});
+
+	describe('updateProject', () => {
+		it('should throw error when project is null', () => {
+			try {
+				service.updateProject(null);
+				fail('Should have thrown error')
+			} catch (e) {
+				expect(e.message).toEqual('Cannot edit a project with no id.');
+			}
+		});
+
+		it('should throw error when project id is null', () => {
+			const project = new ProjectBuilder().withId(null).build();
+			try {
+				service.updateProject(project);
+				fail('Should have thrown error')
+			} catch (e) {
+				expect(e.message).toEqual('Cannot edit a project with no id.');
+			}
+		});
+
+		it('should throw an error when old project doesn\'t exist', () => {
+			try {
+				const project = new ProjectBuilder().build();
+				service.updateProject(project);
+				fail('should have thrown error');
+			} catch (e) {
+				expect(e.message).toEqual('Cannot edit a project that does not exist.');
+			}
+		});
+
+		it('should edit the project', () => {
+			const oldProject = new ProjectBuilder().build(),
+				newProject = new ProjectBuilder().withId(oldProject.id).build();
+			service['projects$$'].next([oldProject]);
+
+			service.updateProject(newProject);
+			expect(databaseServiceMock.setValue).toHaveBeenCalled();
 		})
 	})
 });
