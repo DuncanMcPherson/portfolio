@@ -5,6 +5,7 @@ import {IProject, projectUtils} from "../../models/project.model";
 import isArray from "lodash-es/isArray";
 import {LinkPreviewService} from "../../../link-preview/services/link-preview.service";
 import {IPreview} from "../../models/preview.model";
+import sortBy from 'lodash-es/sortBy';
 
 @Injectable({
 	providedIn: 'root'
@@ -15,7 +16,7 @@ export class ProjectService {
 	public readonly projects$: Observable<IProject[]> = this.projects$$
 		.pipe(
 			map((projects) => {
-				return this.sortArray<IProject>(projects, 'id')
+				return sortBy(projects, ['id'])
 			})
 		);
 
@@ -62,7 +63,7 @@ export class ProjectService {
 						}
 					})
 
-					return forkJoin(updatedProjects$);
+					return updatedProjects$.length ? forkJoin(updatedProjects$) : of([]);
 				}),
 				tap((projects: IProject[]) => {
 					this.projects$$.next(projects);
@@ -155,53 +156,5 @@ export class ProjectService {
 					return project
 				};
 		}
-	}
-
-	private sortArray<T>(collection: T[], key: keyof T): T[] {
-		let result: T[] = [];
-		for (let i = 0; i < collection.length;) {
-			let compRes = 0;
-			let lowest: T;
-			while (compRes >= 0) {
-				let a = collection[i++],
-					b = collection[i];
-				if (i < collection.length) {
-					if (lowest) {
-						if (a[key] < lowest[key]) {
-							lowest = a;
-							compRes = 1;
-						} else if (b[key] < lowest[key]) {
-							lowest = b;
-							compRes = 0
-						} else if (a[key] === lowest[key] || b[key] === lowest[key]) {
-							compRes = 0;
-						} else {
-							compRes = -1;
-						}
-					} else {
-						lowest = a;
-						if (a[key] < b[key]) {
-							lowest = a;
-							compRes = 1
-						} else if (b[key] < a[key]) {
-							lowest = b;
-							compRes = 0;
-						} else {
-							lowest = a;
-							compRes = -1
-						}
-					}
-				} else {
-					if (!lowest) {
-						lowest = a;
-					}
-					compRes = -1;
-				}
-			}
-			result.push(lowest);
-			collection = collection.filter(x => x[key] !== lowest[key]);
-			i = 0;
-		}
-		return result;
 	}
 }
