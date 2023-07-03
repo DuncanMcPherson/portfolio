@@ -6,6 +6,10 @@
 		background-color: #121212;
 		color: #e0e0e0;
 	}
+
+	.modal-content, .modal-header {
+		background-color: #222222 !important;
+	}
 }
 
 .btn-primary {
@@ -19,4 +23,12 @@
 		border: none;
 		background-color: #DE150CDD;
 	}
+}
+
+.modal-header {
+	background-color: $color-red-medium;
+}
+
+.close-icon {
+	cursor: pointer;
 }

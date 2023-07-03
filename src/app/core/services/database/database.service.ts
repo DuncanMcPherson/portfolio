@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AppService} from "../app/app.service";
-import { get, ref, set, Database, getDatabase } from "firebase/database";
-import {from, map, Observable} from "rxjs";
+import { get, ref, set, Database, getDatabase, onValue } from "firebase/database";
+import {BehaviorSubject, from, map, Observable, take, tap} from "rxjs";
 
 @Injectable({
 	providedIn: 'root'
@@ -20,14 +20,25 @@ export class DatabaseService {
 	}
 
 	public get<T>(location: string): Observable<T> {
-		const locationRef = ref(this.database, location);
+		const subject = new BehaviorSubject<T>(null);
 
-		return from(get(locationRef))
-			.pipe(
-				map((dataSnapshot) => {
-					return dataSnapshot.val() as T;
-				})
-			);
+		onValue(ref(this.database, location), (data) => {
+			const value = data.val();
+			subject.next(value as T);
+		});
+
+		if(!!subject.value) {
+			from(get(ref(this.database, location)))
+				.pipe(
+					take(1),
+					tap((value) => {
+						const data = value.val() as T;
+						subject.next(data);
+					})
+				).subscribe()
+		}
+
+		return subject.asObservable();
 	}
 
 	public setValue<T>(location: string, value: T): void {

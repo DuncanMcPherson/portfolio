@@ -1,0 +1,26 @@
+<div class="modal-content">
+	<div class="modal-header d-flex flex-row">
+		<h5 class="text-center">Create Project</h5>
+		<span class="h5 close-icon" (click)="closeModal()">&cross;</span>
+	</div>
+	<div class="modal-body">
+		<form [formGroup]="form">
+			<div class="row">
+				<app-field-validation [control]="titleControl" fieldName="projectTitle">
+					<input type="text" formControlName="title" appAnimatedLabel="Project Title*" class="form-control">
+				</app-field-validation>
+			</div>
+			<div class="row">
+				<app-field-validation [control]="urlControl" fieldName="projectUrl">
+					<input type="text" formControlName="url" appAnimatedLabel="Project URL*" class="form-control">
+				</app-field-validation>
+			</div>
+			<div class="row">
+				<app-field-validation [control]="descriptionControl" fieldName="projectDescription">
+					<textarea formControlName="roleDescription" appAnimatedLabel="Description of work" cols="30" rows="10" class="form-control"></textarea>
+				</app-field-validation>
+			</div>
+			<button class="btn btn-primary" (click)="saveProject()" [disabled]="!form.valid">Save Project</button>
+		</form>
+	</div>
+</div>

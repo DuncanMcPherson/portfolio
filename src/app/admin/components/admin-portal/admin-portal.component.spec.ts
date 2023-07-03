@@ -1,23 +1,41 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminPortalComponent } from './admin-portal.component';
+import {AdminPortalComponent} from './admin-portal.component';
+import {ProjectService} from "../../../projects/services/project/project.service";
+import {autoMockerInstance} from "../../../../test-utils/auto-mocker-plus";
 
 describe('AdminPortalComponent', () => {
-  let component: AdminPortalComponent;
-  let fixture: ComponentFixture<AdminPortalComponent>;
+	let component: AdminPortalComponent;
+	let fixture: ComponentFixture<AdminPortalComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AdminPortalComponent ]
-    })
-    .compileComponents();
+	let projectServiceMock: ProjectService;
 
-    fixture = TestBed.createComponent(AdminPortalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(async () => {
+		projectServiceMock = autoMockerInstance.mockClass(ProjectService);
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+		autoMockerInstance.withReturnSubjectForObservableProperty(projectServiceMock, 'projects$', []);
+
+		await TestBed.configureTestingModule({
+			declarations: [AdminPortalComponent],
+			providers: [
+				{
+					provide: ProjectService,
+					useValue: projectServiceMock
+				},
+			]
+		})
+			.compileComponents();
+
+		fixture = TestBed.createComponent(AdminPortalComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
+
+	it('should call loadProjects', () => {
+		expect(projectServiceMock.loadProjects).toHaveBeenCalled();
+	})
 });

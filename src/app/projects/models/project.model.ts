@@ -1,9 +1,12 @@
 import {IPreview} from "./preview.model";
 
 export interface IProject {
+	readonly id: number;
 	readonly title: string;
-	readonly url?: string;
+	readonly url: string;
 	readonly preview?: IPreview;
+	readonly isInternal: boolean;
+	readonly roleDescription: string;
 }
 
 function addPreview(project: IProject, preview: IPreview): IProject {
@@ -27,8 +30,40 @@ function updateUrl(project: IProject, newUrl: string): IProject {
 	}
 }
 
+function updateRoleDescription(project: IProject, newDescription: string): IProject {
+	return {
+		...project,
+		roleDescription: newDescription
+	}
+}
+
+function purgePreview(project: IProject): IProject {
+	return {
+		title: project.title,
+		url: project.url,
+		roleDescription: project.roleDescription,
+		isInternal: project.isInternal,
+		id: project.id
+	};
+}
+
+function addId(project: IProject, offset: number, currentNumberOfProjects: number): IProject {
+	const id = offset + currentNumberOfProjects;
+	if (project.id) {
+		return project;
+	}
+
+	return {
+		...project,
+		id: id
+	}
+}
+
 export const projectUtils = {
 	addPreview,
 	updateTitle,
-	updateUrl
+	updateUrl,
+	updateRoleDescription,
+	purgePreview,
+	addId
 }

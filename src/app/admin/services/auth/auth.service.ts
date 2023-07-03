@@ -1,14 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Auth, getAuth, signInWithEmailAndPassword, User, onAuthStateChanged} from 'firebase/auth'
+import {Auth, getAuth, signInWithEmailAndPassword, User, onAuthStateChanged, setPersistence, browserLocalPersistence} from 'firebase/auth'
 import {AppService} from "../../../core/services/app/app.service";
-import {BehaviorSubject, from, map, Observable} from "rxjs";
+import {from, map, Observable, shareReplay, Subject} from "rxjs";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthService {
-	private user$$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-	public user$: Observable<User> = this.user$$.asObservable();
+	private user$$: Subject<User> = new Subject();
+	public user$: Observable<User> = this.user$$.asObservable().pipe(
+		shareReplay(1)
+	);
 
 	private _auth: Auth;
 	private allowedAdmins: string[] = [
@@ -17,6 +19,7 @@ export class AuthService {
 
 	private set auth(value: Auth) {
 		this._auth = value;
+		void setPersistence(value, browserLocalPersistence);
 	}
 
 	private get auth(): Auth {

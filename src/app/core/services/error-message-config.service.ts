@@ -16,4 +16,18 @@ export class ErrorMessageConfigService {
 	public signInPassword: IErrorMessages = {
 		required: 'Please enter your password'
 	}
+
+	public projectTitle: IErrorMessages = {
+		required: 'Please specify the title of the project.',
+		minlength: 'Title must be at least 5 characters in length.'
+	}
+
+	public projectUrl: IErrorMessages = {
+		required: 'Please specify the url for the project',
+		notAUrl: 'Please enter the url in the format of https:// or http://'
+	}
+
+	public projectDescription: IErrorMessages = {
+		minlength: 'Please enter a minimum of 45 characters.'
+	}
 }
