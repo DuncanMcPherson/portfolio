@@ -1,0 +1,12 @@
+<div class="d-flex flex-column w-100">
+	<div class="project-card p-3">
+		<h5>{{project.title}}</h5>
+		<p>{{(project.preview && project.preview.description && project.preview.description.length ? project.preview.description : project.roleDescription) | truncate : 100}}</p>
+		<div *ngIf="project.isInternal; else displayUrl">
+			<sub>Internal Project</sub>
+		</div>
+		<ng-template #displayUrl>
+			<a [href]="project.url" target="_blank"><small>{{project.url}}</small></a>
+		</ng-template>
+	</div>
+</div>
