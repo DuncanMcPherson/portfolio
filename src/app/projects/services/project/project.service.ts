@@ -27,6 +27,10 @@ export class ProjectService {
 	}
 
 	public loadProjects(): void {
+		const current = this.projects$$.value;
+		if (current?.length) {
+			return;
+		}
 		this.databaseService.get<IProject[]>('projects')
 			.pipe(
 				map((results) => {

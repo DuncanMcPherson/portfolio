@@ -7,6 +7,7 @@ export interface IProject {
 	readonly preview?: IPreview;
 	readonly isInternal: boolean;
 	readonly roleDescription: string;
+	readonly customDescription?: string;
 }
 
 function addPreview(project: IProject, preview: IPreview): IProject {
@@ -59,11 +60,19 @@ function addId(project: IProject, offset: number, currentNumberOfProjects: numbe
 	}
 }
 
+function updateCustomProjectDescription(project: IProject, newDescription: string): IProject {
+	return {
+		...project,
+		customDescription: newDescription
+	}
+}
+
 export const projectUtils = {
 	addPreview,
 	updateTitle,
 	updateUrl,
 	updateRoleDescription,
 	purgePreview,
-	addId
+	addId,
+	updateCustomProjectDescription
 }
