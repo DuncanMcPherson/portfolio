@@ -27,7 +27,8 @@ export class ProjectService {
 	}
 
 	public loadProjects(): void {
-		if (!!this.projects$$.value.length) {
+		const current = this.projects$$.value;
+		if (current?.length) {
 			return;
 		}
 		this.databaseService.get<IProject[]>('projects')
