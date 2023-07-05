@@ -1,0 +1,34 @@
+<div class="container" *ngIf="vm$ | async as vm">
+	<div class="row">
+		<h1 class="text-center" *ngIf="!vm.project.isInternal; else internalProjectTitle">{{vm.project.title}}</h1>
+		<ng-template #internalProjectTitle>
+			<h1 class="text-center">{{vm.project.preview.title}}</h1>
+		</ng-template>
+	</div>
+	<div class="row" *ngIf="!vm.project.isInternal; else internalDetails">
+		<div class="col-12 col-md-2" *ngIf="!!vm.project.preview?.image">
+			<img [ngSrc]="vm.project.preview.image" alt="Project preview image" width="150" height="150">
+		</div>
+		<div class="col-12 col-md-10 row">
+			<div class="col-12">
+				<p><strong>Project Location: </strong><a [href]="vm.project.url">{{vm.project.url}}</a></p>
+			</div>
+			<div class="col-12" *ngIf="!!vm.project.preview.description">
+				<p><strong>Project Description: </strong>{{vm.project.preview.description}}</p>
+			</div>
+			<div class="col-12">
+				<p><strong>My Role: </strong>{{vm.project.roleDescription}}</p>
+			</div>
+		</div>
+	</div>
+	<ng-template #internalDetails>
+		<div class="row">
+			<div class="col-12" *ngIf="vm.project.customDescription">
+				<p><strong>Project Description: </strong>{{vm.project.customDescription}}</p>
+			</div>
+			<div class="col-12">
+				<p><strong>My Role: </strong>{{vm.project.roleDescription}}</p>
+			</div>
+		</div>
+	</ng-template>
+</div>

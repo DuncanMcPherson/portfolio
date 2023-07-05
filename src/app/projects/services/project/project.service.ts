@@ -27,6 +27,9 @@ export class ProjectService {
 	}
 
 	public loadProjects(): void {
+		if (!!this.projects$$.value.length) {
+			return;
+		}
 		this.databaseService.get<IProject[]>('projects')
 			.pipe(
 				map((results) => {
