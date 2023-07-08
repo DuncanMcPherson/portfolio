@@ -75,12 +75,13 @@ export class ProjectService {
 			).subscribe();
 	}
 
-	public createProject(title: string, url: string, isInternal: boolean, roleDescription: string): void {
+	public createProject(title: string, url: string, isInternal: boolean, roleDescription: string, customDescription: string): void {
 		let project: IProject = {
 			title: title,
 			url: url,
 			isInternal: isInternal,
-			roleDescription: roleDescription
+			roleDescription: roleDescription,
+			customDescription: customDescription
 		} as IProject;
 
 		this.projects$.pipe(
