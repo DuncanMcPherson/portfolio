@@ -155,6 +155,8 @@ export class ProjectService {
 				return projectUtils.updateTitle;
 			case "url":
 				return projectUtils.updateUrl;
+			case "customDescription":
+				return projectUtils.updateCustomProjectDescription;
 			default:
 				return (project, _) => {
 					return project
