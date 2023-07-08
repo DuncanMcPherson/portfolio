@@ -20,6 +20,11 @@
 					<textarea formControlName="roleDescription" appAnimatedLabel="Description of work" cols="30" rows="10" class="form-control"></textarea>
 				</app-field-validation>
 			</div>
+			<div class="row" *ngIf="project.isInternal">
+				<app-field-validation [control]="customDescriptionControl" fieldName="projectCustomDescription">
+					<textarea formControlName="customDescription" appAnimatedLabel="Description of project" cols="30" rows="10" class="form-control"></textarea>
+				</app-field-validation>
+			</div>
 			<button class="btn btn-primary" (click)="saveProject()" [disabled]="!form.valid">Save Project</button>
 		</form>
 	</div>

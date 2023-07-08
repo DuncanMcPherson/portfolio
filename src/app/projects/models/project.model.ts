@@ -44,7 +44,8 @@ function purgePreview(project: IProject): IProject {
 		url: project.url,
 		roleDescription: project.roleDescription,
 		isInternal: project.isInternal,
-		id: project.id
+		id: project.id,
+		customDescription: project.customDescription ?? ''
 	};
 }
 

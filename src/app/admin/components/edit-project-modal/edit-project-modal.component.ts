@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractModal} from "../../../core/models/abstract-modal";
 import {IProject} from "../../../projects/models/project.model";
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {ModalResultAction} from "../../../core/models/modal-result";
 
 interface IEditProjectForm {
 	title: FormControl<string>;
 	url: FormControl<string>;
 	roleDescription: FormControl<string>;
+	customDescription: FormControl<string>;
 }
 
 interface IEditProjectModalDataModel {
@@ -36,11 +37,16 @@ export class EditProjectModalComponent extends AbstractModal<IEditProjectModalDa
 		return this.form.get('roleDescription') as FormControl;
 	}
 
+	public get customDescriptionControl(): FormControl {
+		return this.form.get('customDescription') as FormControl;
+	}
+
 	public ngOnInit(): void {
 		this.form = new FormGroup<IEditProjectForm>({
 			title: new FormControl<string>(this.project.title, [Validators.required, Validators.minLength(5)]),
 			url: new FormControl<string>(this.project.url, [Validators.required, this.urlValidator]),
-			roleDescription: new FormControl<string>(this.project.roleDescription, Validators.minLength(45))
+			roleDescription: new FormControl<string>(this.project.roleDescription, Validators.minLength(45)),
+			customDescription: new FormControl<string>(this.project.customDescription, this.getValidators())
 		})
 	}
 
@@ -51,9 +57,10 @@ export class EditProjectModalComponent extends AbstractModal<IEditProjectModalDa
 
 		const projectValue: IProject = this.form.value as IProject;
 
-		const project = {
+		const project: IProject = {
 			...projectValue,
-			id: this.project.id
+			id: this.project.id,
+			isInternal: this.project.isInternal
 		}
 
 		this.close(ModalResultAction.accept, project);
@@ -71,5 +78,9 @@ export class EditProjectModalComponent extends AbstractModal<IEditProjectModalDa
 		const regTest = new RegExp(/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-z0-9]{1,6}\b(?:[-a-zA-Z0-9()@:%._+~#?&\/=]*)$/);
 		const matches = regTest.test(control.value);
 		return matches ? null : {notAUrl: true };
+	}
+
+	private getValidators(): ValidatorFn[] {
+		return this.project.isInternal ? [Validators.required, Validators.minLength(45)] : [];
 	}
 }
