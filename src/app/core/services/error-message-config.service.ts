@@ -30,4 +30,9 @@ export class ErrorMessageConfigService {
 	public projectDescription: IErrorMessages = {
 		minlength: 'Please enter a minimum of 45 characters.'
 	}
+
+	public projectCustomDescription: IErrorMessages = {
+		required: 'Project description is required when project is internal',
+		minlength: 'Please enter a minimum of 45 characters.'
+	}
 }

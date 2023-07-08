@@ -23,11 +23,12 @@
 					<textarea formControlName="roleDescription" appAnimatedLabel="Description of work" cols="30" rows="10" class="form-control"></textarea>
 				</app-field-validation>
 			</div>
+			<div class="row" *ngIf="isInternalControl.value === true">
+				<app-field-validation [control]="customDescriptionControl" fieldName="projectCustomDescription">
+					<textarea formControlName="customProjectDescription" appAnimatedLabel="Description of project" cols="30" rows="10" class="form-control"></textarea>
+				</app-field-validation>
+			</div>
 				<button class="btn btn-primary" (click)="saveProject()" [disabled]="!form.valid">Save Project</button>
 		</form>
-		<div class="row mt-3" *ngIf="preview">
-<!--			TODO: Add in preview display component-->
-			<h6>Preview: </h6>
-		</div>
 	</div>
 </div>
