@@ -10,7 +10,8 @@ export class ProjectBuilder {
 	private _roleDescription: string = chance.string({ length: 50});
 	private _isInternal: boolean = chance.bool();
 	private _preview: IPreview | undefined = this._isInternal ? undefined : new PreviewBuilder().withUrl(this._url).build();
-	private _id: number = chance.integer({min: 100, max: 999})
+	private _id: number = chance.integer({min: 100, max: 999});
+	private _customDescription: string | undefined = this._isInternal ? chance.string() : undefined;
 
 	public withTitle(title: string): ProjectBuilder {
 		this._title = title;
@@ -37,6 +38,11 @@ export class ProjectBuilder {
 		return this;
 	}
 
+	public withCustomProjectDescription(description: string): ProjectBuilder {
+		this._customDescription = description;
+		return this;
+	}
+
 	public withId(id: number): ProjectBuilder {
 		this._id = id;
 		return this;
@@ -49,7 +55,8 @@ export class ProjectBuilder {
 			isInternal: this._isInternal,
 			roleDescription: this._roleDescription,
 			id: this._id,
-			preview: this._preview
+			preview: this._preview,
+			customDescription: this._customDescription
 		}
 	}
 }
