@@ -63,7 +63,7 @@ describe('ProjectsManagementComponent', () => {
 			 });
 			 component.openCreateProjectModal();
 			 expect(modalServiceMock.openModal).toHaveBeenCalledWith(CreateProjectModalComponent, void 0);
-			 expect(projectsServiceMock.createProject).toHaveBeenCalledWith(project.title, project.url, project.isInternal, project.roleDescription);
+			 expect(projectsServiceMock.createProject).toHaveBeenCalledWith(project.title, project.url, project.isInternal, project.roleDescription, project.customDescription);
 		});
 	});
 

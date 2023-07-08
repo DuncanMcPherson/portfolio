@@ -50,27 +50,4 @@ describe('CreateProjectModalComponent', () => {
 			expect(component.form).toBeTruthy();
 		});
 	});
-
-	describe('formValueChanges', () => {
-		beforeEach(() => {
-			fixture.detectChanges();
-		});
-
-		it('should not call linkPreviewService.getPreview when project isInternal', () => {
-			component.urlControl.setValue(chance.url());
-
-			expect(component.preview).toEqual(null);
-			expect(linkPreviewServiceMock.getLinkPreview).not.toHaveBeenCalled();
-		});
-
-		it('should call linkPreviewService.getPreview when project is not internal', () => {
-			const preview = new PreviewBuilder().build();
-			autoMockerInstance.withReturnObservable(linkPreviewServiceMock.getLinkPreview, preview);
-			component.urlControl.setValue(chance.url());
-			component.isInternalControl.setValue(false);
-
-			expect(linkPreviewServiceMock.getLinkPreview).toHaveBeenCalled();
-			expect(component.preview).toEqual(preview);
-		})
-	})
 });

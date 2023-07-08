@@ -39,7 +39,7 @@ export class ProjectsManagementComponent implements OnInit {
 				next: (projectResult: IModalResult<IProject>) => {
 					if (projectResult.result === ModalResultAction.accept) {
 						const project = projectResult.data;
-						this.projectService.createProject(project.title, project.url, project.isInternal, project.roleDescription)
+						this.projectService.createProject(project.title, project.url, project.isInternal, project.roleDescription, project.customDescription)
 					}
 				},
 				error: (err) => {
